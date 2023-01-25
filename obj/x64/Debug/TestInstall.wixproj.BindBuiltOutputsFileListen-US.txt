@@ -1,2 +1,0 @@
-C:\Users\fk250046\source\repos\TestInstall\bin\x64\Debug\en-US\ProductTemplate.msi
-C:\Users\fk250046\source\repos\TestInstall\bin\x64\Debug\en-US\ProductTemplate.wixpdb
