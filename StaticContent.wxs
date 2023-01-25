@@ -1,0 +1,12 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<Fragment>
+
+		<Feature Id="ProductFeature" Description="Product Feature" Level="1" Title="ProductFeature" ConfigurableDirectory="INSTALLDIR">
+			<ComponentRef Id="ProductInfo_reg" />
+			
+		</Feature>
+		
+		
+		<?include DynamicContent.wxi?>
+	</Fragment>
+</Wix>

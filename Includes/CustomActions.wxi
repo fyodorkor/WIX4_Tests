@@ -1,0 +1,28 @@
+﻿<Include xmlns="http://wixtoolset.org/schemas/v4/wxs">
+
+	<CustomAction Id="PreventDowngrading" Error="[IS_PREVENT_DOWNGRADE_EXIT]" />
+	<CustomAction Id="SetAllUsersProfileNT" Property="ALLUSERSPROFILE" Value="[%SystemRoot]\Profiles\All Users" />
+	<CustomAction Id="setAllUsersProfile2K" Property="ALLUSERSPROFILE" Value="[%ALLUSERSPROFILE]" />
+	<CustomAction Id="SetARPINSTALLLOCATION" Property="ARPINSTALLLOCATION" Value="[INSTALLDIR]" />
+	<CustomAction Id="setUserProfileNT" Property="USERPROFILE" Value="[%USERPROFILE]" />
+	
+	
+	
+	<CustomAction Id="SetReinstallModeOnInstall" Property="REINSTALLMODE" Value="amus" />
+	<CustomAction Id="SetReinstallModeOnPatchInstall" Property="REINSTALLMODE" Value="omus" />
+	<CustomAction Id="SetReinstallAllOnPatch" Property="REINSTALL" Value="ALL" Execute="firstSequence" />
+	<CustomAction Id="SetReinstallModeOnPatchRemoval" Property="REINSTALLMODE" Value="os" />	
+	
+	
+	<CustomAction Id="SetWindowsVolume" Property="WINVOLUME" Value="[WindowsVolume]" />	
+	<CustomAction Id="ShowMsiLog" Directory="SystemFolder" ExeCommand="[SystemFolder]notepad.exe &quot;[MsiLogFileLocation]&quot;" Return="asyncNoWait" />
+
+	
+	
+<!-- Custom actions for patch removal-->
+	<!-- These actions will be included in the package only if we build upgraded package for the patch. This parameter is passed by build system-->
+	<?if $(var.BuildForPatch) != ""?>
+		<CustomAction Id="GetPatchRemoveInformation" DllEntry="GetPatchRemoveInformation" PatchUninstall="yes" Execute="immediate" BinaryRef="CommonCA" />
+		<CustomAction Id="PreventPatchRemoveFromApplet" Error="This patch cannot be uninstalled from remove updates applet!" PatchUninstall="yes" />	
+	<?endif?>
+</Include>

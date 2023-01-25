@@ -1,0 +1,35 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<Fragment>
+		<UI Id="AppPoolRecyclingID">
+			<UIRef Id="UIDefs" />
+			<Dialog Id="AppPoolRecycling" Width="370" Height="270" Title="[ProductName]">
+
+				<Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="WixUI_Bmp_Banner" />
+				
+				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
+				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+
+				<Control Id="RecycleTimeLbl" Type="Text" X="21" Y="56" Width="214" Height="17" Text="&amp;AppPool recycle times ( Day Time,Example 3:00,00:00 ) :" TabSkip="no" Transparent="yes" />
+				<Control Id="RecycleTimeEdit" Type="Edit" X="21" Y="74" Width="95" Height="15" Property="APP_POOL_RECYCLE_TIME" ToolTip="!(loc.AppPoolRecyclingDlg_Times)" Sunken="yes" />
+
+				<Control Id="RegularTimeIntervalLbl" Type="Text" X="21" Y="116" Width="154" Height="17" Text="&amp;Regular Time Intervals ( in minutes ):" TabSkip="no" Transparent="yes" />
+				<Control Id="RegularTimeIntervalEdit" Type="Edit" X="21" Y="136" Width="95" Height="15" Property="REGULAR_TIME_INTERVAL" ToolTip="!(loc.AppPoolRecyclingDlg_Interval)" Sunken="yes" />
+				<Control Id="OK" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="!(loc.WixUIOK)" TabSkip="no" Default="yes">
+					<!--<Publish Event="DoAction" Value="ValidateAppPoolRecycleTime" Order="1" />
+					<Publish Event="SpawnDialog" Value="ErrorMessage" Order="2" Condition="RETALIX_ERROR" />-->
+					<Publish Event="EndDialog" Value="Return" Order="3" Condition="NOT RETALIX_ERROR" />
+				</Control>
+				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="!(loc.WixUICancel)" TabSkip="no" Cancel="yes">
+					<Publish Event="Reset" Value="0" />
+					<Publish Event="EndDialog" Value="Return" />
+				</Control>
+				
+
+				<Control Id="AppPoolRecyclingDlg_Title" Type="Text" X="13" Y="6" Width="292" Height="25" Text="{&amp;DlgTitle}!(loc.AppPoolRecyclingDlg_Title)" TabSkip="yes" Transparent="yes" />
+				<Control Id="DlgDesc" Type="Text" X="21" Y="23" Width="292" Height="25" Text="{&amp;DlgDesc}!(loc.AppPoolRecyclingDlg_Desc)" TabSkip="yes" Transparent="yes" />
+				
+
+			</Dialog>
+		</UI>
+	</Fragment>
+</Wix>

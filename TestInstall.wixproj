@@ -1,0 +1,107 @@
+<Project>
+  <Import Project="Sdk.props" Sdk="WixToolset.Sdk" Version="4.0.0-rc.2" />
+  <PropertyGroup>
+    <ProductVersion>3.5</ProductVersion>
+    <OutputName>ProductTemplate</OutputName>
+    <Name>ProductTemplate</Name>
+    <IncludeSearchPaths>Includes\;Dynamic\</IncludeSearchPaths>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <DefineConstants>ProductPath=..\Product;ProductVersion=10.5.0;ProductCode={D3411D2D-D10F-4F6B-AA01-5B063E90B2C9};PatchDatabase=;BuildForPatch=$(BuildForPatch)</DefineConstants>
+    <SuppressAllWarnings>False</SuppressAllWarnings>
+    <Pedantic>False</Pedantic>
+    <SuppressIces></SuppressIces>
+    <LinkerAdditionalOptions></LinkerAdditionalOptions>
+    <InstallerPlatform>x86</InstallerPlatform>
+    <WixVariables></WixVariables>
+    <SuppressValidation>False</SuppressValidation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <SuppressIces></SuppressIces>
+    <DefineConstants>ProductPath=$(ProductPath);ProductVersion=$(ProductVersion);ProductCode=$(ProductCode);PatchDatabase=$(PatchDatabase);BuildForPatch=$(BuildForPatch)</DefineConstants>
+    <InstallerPlatform>x86</InstallerPlatform>
+    <SuppressAllWarnings>False</SuppressAllWarnings>
+    <Pedantic>False</Pedantic>
+    <SuppressValidation>True</SuppressValidation>
+    <LinkerAdditionalOptions />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <DefineConstants>ProductPath=..\Product;ProductVersion=10.100.999;ProductCode=59184350-BBE0-4C15-B5D5-D288B7F11E72;PatchDatabase=;BuildForPatch=$(BuildForPatch)</DefineConstants>
+    <SuppressAllWarnings>False</SuppressAllWarnings>
+    <Pedantic>False</Pedantic>
+    <SuppressIces></SuppressIces>
+    <LinkerAdditionalOptions></LinkerAdditionalOptions>
+    <InstallerPlatform>x64</InstallerPlatform>
+    <WixVariables />
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+    <SuppressValidation>False</SuppressValidation>
+    <VerboseOutput>True</VerboseOutput>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <DefineConstants>ProductPath=$(ProductPath);ProductVersion=$(ProductVersion);ProductCode=$(ProductCode);PatchDatabase=$(PatchDatabase);BuildForPatch=$(BuildForPatch)</DefineConstants>
+    <SuppressAllWarnings>False</SuppressAllWarnings>
+    <Pedantic>False</Pedantic>
+    <SuppressIces></SuppressIces>
+    <InstallerPlatform>x64</InstallerPlatform>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+    <SuppressValidation>True</SuppressValidation>
+    <LinkerAdditionalOptions />
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="DefaultIcons\Banner_NCR.jpg" />
+    <Content Include="DefaultIcons\CompleteSetupIco.ibd" />
+    <Content Include="DefaultIcons\CustomSetupIco.ibd" />
+    <Content Include="DefaultIcons\DestIcon.ibd" />
+    <Content Include="DefaultIcons\DiskCleanupIcon.ibd" />
+    <Content Include="DefaultIcons\DontInstall.ico" />
+    <Content Include="DefaultIcons\Drives1.ibd" />
+    <Content Include="DefaultIcons\exclamic.ico" />
+    <Content Include="DefaultIcons\Frame_NCR.jpg" />
+    <Content Include="DefaultIcons\GenericExe.ico" />
+    <Content Include="DefaultIcons\info.ico" />
+    <Content Include="DefaultIcons\Install.ico" />
+    <Content Include="DefaultIcons\InstallFirstUse.ico" />
+    <Content Include="DefaultIcons\Installix.ico" />
+    <Content Include="DefaultIcons\InstallPartial.ico" />
+    <Content Include="DefaultIcons\InstallStateMenu.ico" />
+    <Content Include="DefaultIcons\NetworkInstall.ico" />
+    <Content Include="DefaultIcons\New.ibd" />
+    <Content Include="DefaultIcons\New.ico" />
+    <Content Include="DefaultIcons\NotValidated.bmp" />
+    <Content Include="DefaultIcons\QuestionIcon.ibd" />
+    <Content Include="DefaultIcons\ReInstCompleteIco.ibd" />
+    <Content Include="DefaultIcons\ReinstIco.ibd" />
+    <Content Include="DefaultIcons\ReInstMinimalIco.ibd" />
+    <Content Include="DefaultIcons\ReInstNormalIco.ibd" />
+    <Content Include="DefaultIcons\RemoveIco.ibd" />
+    <Content Include="DefaultIcons\SetupIcon.ibd" />
+    <Content Include="DefaultIcons\SetupIcon.ico" />
+    <Content Include="DefaultIcons\Uninstall.ico" />
+    <Content Include="DefaultIcons\Up.ibd" />
+    <Content Include="DefaultIcons\Up.ico" />
+    <Content Include="DefaultIcons\Validated.bmp" />
+    <Content Include="DefaultIcons\WarningIcon.ibd" />
+    <Content Include="Dynamic\DynamicContent.wxi" />
+    <Content Include="Dynamic\DynamicFolders.wxi" />
+    <Content Include="Includes\CustomTables.wxi" />
+    <Content Include="Includes\InstallSequences.wxi" />
+    <Content Include="Includes\Properties.wxi" />
+    <Content Include="Includes\CustomActions.wxi" />
+    <Content Include="Includes\CommonDefs.wxi" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Includes" />
+    <Folder Include="Localization" />
+    <Folder Include="Dynamic" />
+    <Folder Include="DefaultIcons" />
+    <Folder Include="UserInterface" />
+  </ItemGroup>
+  <Import Project="Sdk.targets" Sdk="WixToolset.Sdk" Version="4.0.0-rc.2" />
+  <PropertyGroup>
+    <PostBuildEvent />
+  </PropertyGroup>
+</Project>

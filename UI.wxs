@@ -1,0 +1,53 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+
+	<Fragment>
+		<?include "CommonDefs.wxi"?>
+		<UI Id="UICommon">
+					
+						
+			<!-- Installation sequence -->
+			<Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="DestinationFolder" Order="100" Condition="Not Installed" />			
+			<Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Order="101" Condition="Installed AND (PATCH OR MSIPATCHREMOVE)" />
+
+			<!-- ##########################################################################################################################################################3-->
+
+			<Publish Dialog="DestinationFolder" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="100" />
+			
+			<Publish Dialog="DestinationFolder" Control="Next" Event="NewDialog" Value="DmsConfigurationDialog" Order="100" />
+			
+			<!-- ##########################################################################################################################################################3-->
+
+			<Publish Dialog="DmsConfigurationDialog" Control="Back" Event="NewDialog" Value="DestinationFolder" Order="100" />
+
+			<Publish Dialog="DmsConfigurationDialog" Control="Next" Event="NewDialog" Value="WebSiteConfig" Order="100" />
+
+			<!-- ##########################################################################################################################################################3-->
+
+			<Publish Dialog="WebSiteConfig" Control="Back" Event="NewDialog" Value="DmsConfigurationDialog" Order="100" />
+
+			<Publish Dialog="WebSiteConfig" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Order="100" />
+
+
+			<!-- ##########################################################################################################################################################3-->
+
+
+			<Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="CustomizeDlg" Order="100" Condition="NOT Installed" />
+			<Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="101" Condition="Installed AND (PATCH OR MSIPATCHREMOVE)" />
+
+			
+			
+			<!-- Maintenance sequence -->
+			<Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg" />
+			
+			<Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg" />
+			
+			<Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg" Order="3" Condition="WixUI_InstallMode = &quot;Remove&quot;" />
+
+			<Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Condition="Installed AND WixUI_InstallMode =&quot;Change&quot;" />
+
+		</UI>
+
+	</Fragment>
+
+
+</Wix>

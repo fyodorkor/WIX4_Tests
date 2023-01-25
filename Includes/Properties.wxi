@@ -1,0 +1,29 @@
+﻿<Include xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	
+	<Property Id="DiskPrompt" Value="[1]" />
+	
+	<Property Id="ApplicationUsers" Value="AllUsers" />	
+	<Property Id="AgreeToLicense" Value="No" />		
+	<Property Id="RestartManagerOption" Value="CloseRestart" />	
+	<Property Id="SetupType" Value="Typical" />
+	<!--<Property Id="ALLUSERS" Value="1" />-->
+	<Property Id="ARPNOREMOVE" Value="1" />
+	<Property Id="ARPNOREPAIR" Value="1" />
+	<Property Id="ARPPRODUCTICON" Value="ArpProducticon" />
+	<Property Id="ARPURLINFOABOUT" Value="http://www.ncr.com/industries/retail" />
+	<Property Id="DMS_SECURE_MODE" Value="None" />
+	<Property Id="DWUSINTERVAL" Value="30" />
+	<Property Id="DWUSLINK" Value="CECC80D88EAC374FAEAC778FBE5B978FD9BB208F69CC908FCEDCC7BFF9BCF0A8CEECA0EFB9AC" />
+	<Property Id="DefaultUIFont" Value="Tahoma" />
+	<Property Id="DisplayNameCustom" Value="Custom" />
+	<Property Id="DisplayNameMinimal" Value="Minimal" />
+	<Property Id="DisplayNameTypical" Value="Typical" />
+	<Property Id="ErrorDialog" Value="ErrorDlg" />
+	<Property Id="INSTALLLEVEL" Value="100" />
+	<Property Id="Secured" Value="1" />
+	
+	<Property Id="RebootYesNo" Value="Yes" />
+	<Property Id="ReinstallModeText" Value="amus" />
+	
+	
+</Include>

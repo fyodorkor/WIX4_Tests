@@ -1,0 +1,78 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<Fragment>
+		<UI>
+			<UIRef Id="WebSiteConfigID" />
+			<Dialog Id="DmsConfigurationDialog" Width="370" Height="270" Title="!(loc.CommonDlg_Title)" TrackDiskSpace="yes">
+				<Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="!(loc.TemplateDlgBannerBitmap)" />
+				<Control Id="Title" Type="Text" X="13" Y="6" Width="210" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.DmsConfigurationDlgTitle)" />
+				<Control Id="Description" Type="Text" X="15" Y="20" Width="240" Height="25" Transparent="yes" NoPrefix="yes" Text="!(loc.DmsConfigurationDialogDescription)" />
+				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
+				<!-- #######################################################################################################################################################################-->
+
+				<Control Id="R10Server" Type="Text" X="19" Y="50" Width="167" Height="16" Text="!(loc.DmsConfigurationDlg_R10Server)" TabSkip="no" Transparent="yes" />
+				<Control Id="R10Edit" Type="Edit" X="19" Y="66" Width="155" Height="16" Property="R10SERVER" TabSkip="no" Sunken="yes" ToolTip="!(loc.DmsConfigurationDlg_R10EditToolTip)" />
+				<Control Id="SecuredR10Server" Type="CheckBox" X="200" Y="66" Width="50" Height="16" Hidden="yes" CheckBoxPropertyRef="Secured" Text="Secured" CheckBoxValue="1" TabSkip="no" ShowCondition="&amp;Application &lt;&gt; 3">
+					
+					<Publish Property="WEB_HEADER" Value="HTTP" Condition="NOT Secured" />
+					<Publish Property="WEB_HEADER" Value="HTTPS" Condition="Secured" />
+					<Publish Property="WEBSITE_PORT" Value="80" Condition="NOT Secured" />
+					<Publish Property="WEBSITE_PORT" Value="443" Condition="Secured" />
+				</Control>
+				<Control Id="R10ServerPortLbl" Type="Text" X="260" Y="50" Width="90" Height="16" Hidden="yes" Text="Connection Port" TabSkip="no" Transparent="yes" ShowCondition="&amp;Application &lt;&gt; 3" />
+				<Control Id="R10ServerPortEdit" Type="Edit" X="260" Y="66" Width="40" Height="16" Hidden="yes" Property="WEBSITE_PORT" TabSkip="no" Sunken="yes" ToolTip="!(loc.DmsConfigurationDlg_R10PortToolTip)" ShowCondition="&amp;Application &lt;&gt; 3" />
+
+				<Control Id="DmsTempLbl" Type="Text" X="19" Y="84" Width="200" Height="16" Text="!(loc.DmsConfigurationDlg_DmsTemp)" TabSkip="no" Transparent="yes" ShowCondition="&amp;ColdStart2 = 3" HideCondition="&amp;ColdStart2 &lt;&gt; 3" />
+				<Control Id="DmsTempEdit" Type="Edit" X="19" Y="100" Width="200" Height="16" Property="DMS_TEMP_FOLDER" TabSkip="no" Sunken="yes" ToolTip="!(loc.DmsConfigurationDlg_DmsTempToolTip)" ShowCondition="&amp;ColdStart2 = 3" HideCondition="&amp;ColdStart2 &lt;&gt; 3" />
+				<Control Id="BrowseBtn" Type="PushButton" X="234" Y="100" Width="56" Height="16" Text="!(loc.DmsConfigurationDlg_Browse)" TabSkip="yes" ShowCondition="&amp;ColdStart2 = 3" HideCondition="&amp;ColdStart2 &lt;&gt; 3" DisableCondition="1">
+					
+					
+					<Publish Property="_DmsTempBrowseProperty" Value="[DMS_TEMP_FOLDER]" Order="1" />
+					<!--<Publish Event="SpawnDialog" Value="DmsChangeTempFolder" Order="2" />-->
+				</Control>
+
+				<Control Id="EncryptionKeyLbl" Type="Text" X="19" Y="128" Width="100" Height="16" Hidden="yes" Text="!(loc.DmsConfigurationDlg_EncryptionKey)" TabSkip="no" Transparent="yes" ShowCondition="(SERVER_TYPE = &quot;HqServer&quot; OR SERVER_TYPE=&quot;CommerceFarm&quot;) AND NOT STORED_ENCRYPTION_KEY_SECURED" />
+				<Control Id="EncryptionKeyEdit" Type="Edit" X="205" Y="128" Width="150" Height="16" Hidden="yes" Property="ENCRYPTION_KEY" TabSkip="no" Sunken="yes" ToolTip="!(loc.DmsConfigurationDlg_EncryptionKeyToolTip)" ShowCondition="(SERVER_TYPE = &quot;HqServer&quot; OR SERVER_TYPE=&quot;CommerceFarm&quot;) AND NOT STORED_ENCRYPTION_KEY_SECURED" />
+				<Control Id="UseSSL" Type="CheckBox" X="19" Y="146" Width="150" Height="16" Property="DmsUseSsl" CheckBoxValue="1" Text="Use SSL for DMS communication:" HideCondition="&amp;DMSClient &lt;&gt; 3" />
+
+				<Control Id="AvailableCertList" Type="ListBox" X="19" Y="164" Width="336" Height="62" Property="CERTIFICATE_HASH" HideCondition="NOT DmsUseSsl OR &amp;DMSClient &lt;&gt; 3" ShowCondition="DmsUseSsl" />
+				
+				
+				<!-- #######################################################################################################################################################################-->
+				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+				<Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" ElevationShield="yes" Default="yes" Text="!(loc.WixUINext)">
+					<Publish Property="HQ_SERVER_URL" Value="[WEB_HEADER]://[R10SERVER]:[WEBSITE_PORT]/[WEB_FOLDER_NAME]" Condition="SERVER_TYPE=&quot;HqServer&quot;" />
+					<Publish Property="Maximum_String_Length" Value="16" />
+					<Publish Property="String_Under_Validation" Value="[ENCRYPTION_KEY]" />
+					<Publish Event="DoAction" Value="ValidateEncryptionKeyLength" Condition="(SERVER_TYPE = &quot;HqServer&quot; OR SERVER_TYPE=&quot;CommerceFarm&quot;) AND NOT STORED_ENCRYPTION_KEY_SECURED" />
+					<Publish Property="RETALIX_ERROR" Value="!(loc.DmsConfigurationDlg_ErrorFiles)" Condition="NOT DMS_TEMP_FOLDER AND &amp;ColdStart2 = 3" />
+					<Publish Property="RETALIX_ERROR" Value="!(loc.DmsConfigurationDlg_ErrorServer)" Condition="NOT R10SERVER" />					
+					<Publish Property="RETALIX_ERROR" Value="!(loc.WebSiteConfigDlgEncryptionKeyError)" Condition="(SERVER_TYPE = &quot;HqServer&quot; OR SERVER_TYPE=&quot;CommerceFarm&quot;) AND NOT STORED_ENCRYPTION_KEY_SECURED AND NOT Has_Valid_Length" />
+					<Publish Property="RETALIX_ERROR" Value="!(loc.WebSiteConfigDlgChooseCertError)" Order="19" Condition="DmsUseSsl AND &amp;DMSClient = 3 AND NOT CERTIFICATE_HASH" />
+
+					<!-- Must set these values to null if no securyty check bocks checked because SQL script reiles only on presence of these values.-->
+					<Publish Property="DMS_CERT_FIND_TYPE" Value="{}" Condition="NOT DmsUseSsl" />					
+					<Publish Property="DMS_CERT_FOUND_VALUE" Value="{}" Condition="NOT DmsUseSsl" />					
+					<Publish Property="DMS_CERT_EXT_KEY" Value="{}" Condition="NOT DmsUseSsl" />					
+					<Publish Property="DMS_CERT_EXT_VALUE" Value="{}" Condition="NOT DmsUseSsl" />
+					<Publish Property="DMS_CERT_THUMBPRINT" Value="{}" Condition="NOT DmsUseSsl" />
+
+					<Publish Property="DMS_CERT_THUMBPRINT" Value="[CERTIFICATE_HASH]" Condition="DmsUseSsl" />
+					<!--<Publish Event="DoAction" Value="GetCertificateDataByHash" Condition="CERTIFICATE_HASH" />-->
+					<Publish Property="PreviousDialog" Value="DmsConfigurationDialog" Condition="NOT RETALIX_ERROR" />
+					<Publish Property="DialogsFlow" Value="[DialogsFlow];[PreviousDialog]" Condition="NOT RETALIX_ERROR" />
+					<Publish Event="SpawnDialog" Value="ErrorMessage" Condition="RETALIX_ERROR" />
+					<Publish Property="DATABASEDBMODE" Value="[[LISTBOXDATABASES][_DBMODE]]" />
+				</Control>
+				<Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="!(loc.WixUIBack)">
+					<!--<Publish Event="DoAction" Value="DefineNextDialogBackFlow" />-->
+					<Publish Event="[Templateevent]" Value="{}" />
+		  <Publish Property="DMS_SERVICE_USER" Value="{}" Order="9" Condition="CREATE_DMS_SERVICE_USER&lt;&gt;1" />
+		  <Publish Property="DMS_SERVICE_USER_PASSWORD" Value="{}" Order="10" Condition="CREATE_DMS_SERVICE_USER&lt;&gt;1" />
+				</Control>
+				<Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
+					<Publish Event="SpawnDialog" Value="CancelDlg" />
+				</Control>
+			</Dialog>
+		</UI>
+	</Fragment>
+</Wix>

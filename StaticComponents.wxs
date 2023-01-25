@@ -1,0 +1,16 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<?include "CommonDefs.wxi"?>
+	<Fragment Id="StaticContent">
+		<DirectoryRef Id="INSTALLDIR">			
+			<Component Id="ProductInfo_reg" Guid="$(var.ProductInfoGUID)" KeyPath="yes" Bitness="$(var.win64Flag)">
+				<RegistryValue Id="Registry1" Root="HKLM" Key="$(var.RegRootPath)" Name="Version" Value="[ProductVersion]" Type="string" />
+				<RegistryValue Id="Registry2" Root="HKLM" Key="$(var.RegRootPath)" Name="Path" Value="[INSTALLDIR]" Type="string" />
+				<RegistryValue Id="Registry3" Root="HKLM" Key="$(var.RegRootPath)" Name="Name" Value="[ProductName]" Type="string" />
+				<RegistryValue Id="Registry4" Root="HKLM" Key="$(var.RegRootPath)" Value="[Date]" Type="string" />
+			</Component>
+			
+		</DirectoryRef>
+
+				
+	</Fragment>
+</Wix>

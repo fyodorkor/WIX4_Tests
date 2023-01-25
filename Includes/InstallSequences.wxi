@@ -1,0 +1,102 @@
+﻿<Include xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<InstallExecuteSequence>
+		<!-- Standard actions-->
+		<Custom Action="SetWindowsVolume" Sequence="5" />
+		
+		
+		<!--<Custom Action="ReadSilentParameters" Before="AppSearch">UILevel &lt; 5 AND NOT Installed</Custom> -->
+		<AppSearch Sequence="400" />
+		<FindRelatedProducts Sequence="500"></FindRelatedProducts>
+		
+		<LaunchConditions Sequence="600" Condition="Not Installed" />
+		
+		<Custom Action="PreventDowngrading" After="LaunchConditions" Condition="FOUNDNEWERVERSION" />
+					
+		<CCPSearch Sequence="700" Condition="CCP_TEST" />
+		<RMCCPSearch Sequence="800" Condition="Not CCP_SUCCESS And CCP_TEST" />
+		<ValidateProductID Sequence="900" />
+		<CostInitialize Sequence="1000" />
+		<ResolveSource Sequence="1100" Condition="Not Installed And Not PATCH" />
+		<FileCost Sequence="1200" />
+		<IsolateComponents Sequence="1300" />
+		<CostFinalize Sequence="1400" />		
+		<Custom Action="SetARPINSTALLLOCATION" After="CostFinalize" Condition="Not Installed" />		
+		<MigrateFeatureStates Sequence="1600" />
+		<InstallValidate Sequence="1700" />
+		<InstallInitialize Sequence="1800" />
+		<RemoveExistingProducts Sequence="1900" />		
+		<AllocateRegistrySpace Sequence="2000" Condition="NOT Installed" />
+		<ProcessComponents Sequence="2100" />
+		<UnpublishComponents Sequence="2200" />
+		<MsiUnpublishAssemblies Sequence="2300" />		
+		<UnpublishFeatures Sequence="2400" />		
+		<StopServices Sequence="2500" Condition="VersionNT" />
+		<DeleteServices Sequence="2600" Condition="VersionNT" />		
+		<UnregisterFonts Sequence="3100" />
+		<RemoveRegistryValues Sequence="3200" />
+		<UnregisterClassInfo Sequence="3300" />
+		<UnregisterExtensionInfo Sequence="3400" />
+		<UnregisterProgIdInfo Sequence="3500" />
+		<UnregisterMIMEInfo Sequence="3600" />
+		<RemoveIniValues Sequence="3700" />
+		<RemoveShortcuts Sequence="3800" />
+		<RemoveEnvironmentStrings Sequence="3900" />
+		<RemoveDuplicateFiles Sequence="4000" />
+		<RemoveFiles Sequence="4100" />
+		<RemoveFolders Sequence="4500" />
+		<CreateFolders Sequence="4600" />
+		<MoveFiles Sequence="4700" />
+		<InstallFiles Sequence="4800" />		
+		<PatchFiles Sequence="4900" />
+		<DuplicateFiles Sequence="5000" />
+		<BindImage Sequence="5100" />
+		<CreateShortcuts Sequence="5200" />		
+		<RegisterClassInfo Sequence="5300" />
+		<RegisterExtensionInfo Sequence="5400" />
+		<RegisterProgIdInfo Sequence="5600" />
+		<RegisterMIMEInfo Sequence="5700" />
+		<WriteRegistryValues Sequence="5800" />
+		<WriteIniValues Sequence="5900" />
+		<WriteEnvironmentStrings Sequence="6000" />
+		<RegisterFonts Sequence="6100" />
+		<InstallODBC Sequence="6200" />
+		<RegisterTypeLibraries Sequence="6300" />
+		<SelfRegModules Sequence="6400" />
+		<RegisterComPlus Sequence="6500" />				
+		<InstallServices Sequence="6600" Condition="VersionNT" />
+		<StartServices Sequence="6700" Condition="VersionNT" />
+		<RegisterUser Sequence="6800" />
+		<RegisterProduct Sequence="6900" />
+		<PublishComponents Sequence="7000" />
+		<MsiPublishAssemblies Sequence="7100" />
+		<PublishFeatures Sequence="7200" />
+		<PublishProduct Sequence="7300" />
+		<!--<ScheduleReboot Sequence="7400"></ScheduleReboot>-->
+		<InstallExecute Sequence="7500" />
+		<InstallFinalize Sequence="7600" />
+	
+	</InstallExecuteSequence>
+
+	<InstallUISequence>
+		<Custom Action="SetWindowsVolume" Sequence="5" />
+		<AppSearch Sequence="400" />
+		<FindRelatedProducts Sequence="500" />
+		<LaunchConditions Sequence="600" Condition="Not Installed" />		
+		<Custom Action="PreventDowngrading" After="LaunchConditions" Condition="FOUNDNEWERVERSION" />		
+		<CCPSearch Sequence="700" Condition="CCP_TEST" />
+		<RMCCPSearch Sequence="800" Condition="Not CCP_SUCCESS And CCP_TEST" />
+		<ValidateProductID Sequence="900" />
+		<CostInitialize Sequence="1000" />
+		<FileCost Sequence="1100" />
+		<Custom Action="setUserProfileNT" After="FileCost" Condition="VersionNT" />
+		<Custom Action="SetAllUsersProfileNT" After="setUserProfileNT" Condition="VersionNT = 400" />
+		<IsolateComponents Sequence="1200" />
+		<ResolveSource Sequence="1300" Condition="Not Installed And Not PATCH" />
+		<CostFinalize Sequence="1400" />
+		
+		<MigrateFeatureStates Sequence="1500" />
+		<ExecuteAction Sequence="2000" />
+		
+
+	</InstallUISequence>
+</Include>

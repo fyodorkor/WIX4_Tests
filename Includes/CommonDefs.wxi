@@ -1,0 +1,29 @@
+﻿<Include xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<?define UpgradeCode="{0E9ABFD5-FB4A-4F9C-8097-B767CA9538CD}"?>
+	<?define Manufacturer="NCR Corporation"?>
+	
+	<!-- Define folder for bitmaps, should be replaced to SupportFiles in build process to include real time bitmaps -->
+	<?define PathToBitmaps="DefaultIcons"?>
+	
+	<?define RegRootPath="SOFTWARE\NCR\[ProductName]"?>
+	
+	<!--<?define ProductVersion="10.110.0"?>-->
+	 
+	<!--<?define ReinstallModeText="vamus"?>-->
+	<?if $(var.Platform) = "x86"?>
+		<?define Support = "x86"?>
+		<?define System = "SystemFolder"?>
+		<?define win64Flag = "always86"?>
+		<?define ProductInfoGUID = "{577F0322-63A4-4A15-82EE-3F2796A3A9F5}"?>
+		<?define SysFolder = "SystemFolder" ?>
+		<?define ProgramsFolder="ProgramFilesFolder"?>
+	<?else?>
+		<?define Support = "x64"?>
+		<?define System = "System64Folder"?>
+		<?define win64Flag = "always64"?>
+		<?define ProductInfoGUID = "{1AA1EF05-9551-49D9-9810-008251669B09}"?>
+		<?define SysFolder ="System64Folder" ?>
+		<?define ProgramsFolder="ProgramFiles64Folder"?>
+	<?endif?>
+
+</Include>

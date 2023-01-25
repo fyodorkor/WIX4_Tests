@@ -1,0 +1,6 @@
+C:\Users\fk250046\source\repos\TestInstall\obj\x64\Debug\TestInstall.wixproj.CoreCompileInputs.cache
+C:\Users\fk250046\source\repos\TestInstall\bin\x64\Debug\en-US\ProductTemplate.msi
+C:\Users\fk250046\source\repos\TestInstall\bin\x64\Debug\en-US\ProductTemplate.wixpdb
+C:\Users\fk250046\source\repos\TestInstall\obj\x64\Debug\en-US\ProductTemplate.msi
+C:\Users\fk250046\source\repos\TestInstall\obj\x64\Debug\en-US\ProductTemplate.wixpdb
+C:\Users\fk250046\source\repos\TestInstall\obj\x64\Debug\TestInstall.wixproj.BindTracking-en-US.txt

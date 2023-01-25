@@ -1,0 +1,15 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<Fragment>
+		<UI Id="ErrorMessageID">
+			<UIRef Id="UIDefs" />
+			<Dialog Id="ErrorMessage" X="50" Y="50" Width="270" Height="110" Title="[ProductName] Installer Information">
+				<Control Id="ErrorText" Type="Text" X="50" Y="15" Width="200" Height="50" Text="[RETALIX_ERROR]" TabSkip="no" NoPrefix="yes" />
+				<Control Id="O" Type="PushButton" X="102" Y="77" Width="66" Height="17" Text="&amp;OK" TabSkip="yes" Default="yes">
+					<Publish Property="RETALIX_ERROR" />
+					<Publish Event="EndDialog" Value="Return" />
+				</Control>
+				<Control Id="ErrorIcon" Type="Icon" X="15" Y="15" Width="24" Height="24" ToolTip="!!(loc.FatalErrorBitmap)" FixedSize="yes" IconSize="32" Text="!(loc.ErrorDlgErrorIcon)" />
+			</Dialog>
+		</UI>
+	</Fragment>
+</Wix>

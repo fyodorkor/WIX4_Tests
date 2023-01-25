@@ -1,0 +1,116 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<Fragment>
+		<UI Id="WebSiteConfigID">
+			<UIRef Id="UIDefs" />
+			<Dialog Id="WebSiteConfig" Width="370" Height="270" Title="[ProductName]">
+				<Control Id="SiteNameLbl" Type="Text" X="4" Y="46" Width="116" Height="10" Text="&amp;Web Site name:" TabSkip="no" Transparent="yes" />
+				<Control Id="SiteNameEdit" Type="Edit" X="4" Y="64" Width="172" Height="15" Property="WEBSITE_NAME" Sunken="yes" />
+
+				<Control Id="AppPoolLbl" Type="Text" X="262" Y="46" Width="116" Height="10" Text="Application Pool Configuration:" TabSkip="no" Transparent="yes" />
+				<Control Id="AppPoolPushButton" Type="PushButton" X="274" Y="64" Width="60" Height="16" Text="&amp;Configure" TabSkip="yes" ElevationShield="yes">
+					<Publish Event="SpawnDialog" Value="AppPoolRecycling" />
+				</Control>
+
+				<!--<Control Id="RecycleTimeLbl" Type="Text" X="274" Y="46" Width="94" Height="17" Text="&amp;AppPool recycle times" ToolTip="Day Time,Example 3:00,00:00" TabSkip="no" Transparent="yes" />
+				<Control Id="RecycleTimeEdit" Type="Edit" X="274" Y="64" Width="95" Height="15" Property="APP_POOL_RECYCLE_TIME" Sunken="yes" />-->
+				<Control Id="SitePortLbl" Type="Text" X="185" Y="46" Width="76" Height="10" Text="Web site por&amp;t num:" TabSkip="no" Transparent="yes" />
+				<Control Id="SitePortEdit" Type="Edit" X="191" Y="64" Width="40" Height="15" Property="WEBSITE_PORT" Sunken="yes" />
+				<Control Id="RestartIisCheckBox" Type="CheckBox" X="8" Y="82" Width="58" Height="10" Text="Restart IIS" Property="RESTART_IIS_DEMAND" CheckBoxValue="1" />
+				<Control Id="SecureCheckBox" Type="CheckBox" X="79" Y="82" Width="70" Height="10" Text="!(loc.WebSiteConfigDlgSecuredText)" Property="Secured" CheckBoxValue="1">
+					<Publish Property="WEB_HEADER" Value="https" Condition="Secured" />
+					<Publish Property="WEB_HEADER" Value="http" Condition="NOT Secured" />
+					<Publish Property="WEBSITE_PORT" Value="80" Condition="NOT Secured" />
+					<Publish Property="WEBSITE_PORT" Value="443" Condition="Secured" />
+					<Publish Property="DMS_SECURE_MODE" Value="SSLWithClientCertificate" Condition="Secured" />
+					<Publish Property="DMS_SECURE_MODE" Value="None" Condition="NOT Secured" />
+					<Publish Property="ATTACH_WEB_CERTIFICATE" Value="{}" Condition="NOT Secured" />
+					<Publish Property="INSTALL_WEB_CERTIFICATE" Value="{}" Condition="NOT Secured" />
+					<Publish Property="RETALIX_ERROR" Value="{\ArialBlue8}!(loc.WebSiteConfigDlgNotSecuredError)" Condition="NOT Secured" />
+					<Publish Event="SpawnDialog" Value="ErrorMessage" Condition="NOT Secured" />
+				</Control>
+				<Control Id="UrlRewriteCheckBox" Type="CheckBox" X="150" Y="82" Width="100" Height="10" Text="!(loc.WebSiteConfigDlgHttpsRewriteText)" Property="USE_HTTP_REWRITE" CheckBoxValue="1" ToolTip="!(loc.WebSiteConfigDlg_HttpRedirectToolTip)" HideCondition="NOT IIS_HTTP_REWRITE" ShowCondition="IIS_HTTP_REWRITE" DisableCondition="NOT Secured" EnableCondition="Secured" />
+				<Control Id="InstallCertCheckBox" Type="CheckBox" X="19" Y="99" Width="153" Height="14" Property="INSTALL_WEB_CERTIFICATE" Text="&amp;Install Certificate" CheckBoxValue="1" HideCondition="NOT Secured" ShowCondition="Secured">
+
+
+					<Publish Property="ATTACH_WEB_CERTIFICATE" Value="{}" Condition="INSTALL_WEB_CERTIFICATE" />
+					<Publish Property="ATTACH_WEB_CERTIFICATE" Value="1" Condition="NOT INSTALL_WEB_CERTIFICATE" />
+					
+				</Control>
+				<Control Id="AttachCertCheckBox" Type="CheckBox" X="196" Y="95" Width="103" Height="16" Text="!(loc.WebSiteConfigDlgAttachCertTxt)" Property="ATTACH_WEB_CERTIFICATE" CheckBoxValue="1" HideCondition="NOT Secured" ShowCondition="Secured">
+
+
+					<Publish Property="INSTALL_WEB_CERTIFICATE" Value="{}" Condition="ATTACH_WEB_CERTIFICATE" />
+					<Publish Property="INSTALL_WEB_CERTIFICATE" Value="1" Condition="NOT ATTACH_WEB_CERTIFICATE" />
+				</Control>
+				<Control Id="CertFileLbl" Type="Text" X="24" Y="116" Width="104" Height="16" Text="!(loc.WebSiteConfigDlgCertFileLbl)" TabSkip="yes" Transparent="yes" HideCondition="NOT Secured OR NOT INSTALL_WEB_CERTIFICATE" ShowCondition="Secured AND INSTALL_WEB_CERTIFICATE" />
+				<Control Id="CertHashLbl" Type="Text" X="24" Y="120" Width="160" Height="16" Text="!(loc.WebSiteConfigDlgCertHashLbl)" TabSkip="no" HideCondition="NOT Secured OR NOT ATTACH_WEB_CERTIFICATE" ShowCondition="Secured AND ATTACH_WEB_CERTIFICATE" />
+				<Control Id="CeretFileEdt" Type="Edit" X="19" Y="132" Width="257" Height="16" Property="RETALIX_CERT_FILE_PATH" Disabled="yes" TabSkip="yes" HideCondition="NOT Secured OR NOT INSTALL_WEB_CERTIFICATE" ShowCondition="Secured AND INSTALL_WEB_CERTIFICATE" />
+				<Control Id="CertFileChange" Type="PushButton" X="295" Y="131" Width="63" Height="16" Text="!(loc.CustomizeDlgBrowse)" TabSkip="no" ElevationShield="yes" HideCondition="NOT Secured OR NOT INSTALL_WEB_CERTIFICATE" ShowCondition="Secured AND INSTALL_WEB_CERTIFICATE" DisableCondition="1">
+					<!--Condition Action="enable"	>	 INSTALL_WEB_CERTIFICATE</Condition>
+					<Condition Action="show"	>	 INSTALL_WEB_CERTIFICATE</Condition-->
+
+
+					<Publish Property="_CertificateFileBrowseProperty" Value="[INSTALLDIR]" />
+					<Publish Property="FILE_BROWSE_FILTER" Value="Certificate files (*.pfx)|*.pfx" />
+					
+					<Publish Property="RETALIX_CERT_FILE_PATH" Value="[FILE_BROWSE_PATH]" />
+				</Control>
+				<Control Id="CertFilePassLbl" Type="Text" X="19" Y="161" Width="116" Height="16" Text="!(loc.WebSiteConfigDlgCertFilePassLbl)" TabSkip="no" Transparent="yes" HideCondition="NOT Secured OR NOT INSTALL_WEB_CERTIFICATE" ShowCondition="Secured AND INSTALL_WEB_CERTIFICATE" DisableCondition="NOT Secured OR NOT INSTALL_WEB_CERTIFICATE" EnableCondition="Secured AND INSTALL_WEB_CERTIFICATE" />
+				<Control Id="CertFilePassEdit" Type="Edit" X="202" Y="159" Width="155" Height="16" Property="RETALIX_CERT_FILE_PASSWORD" Sunken="yes" Password="yes" ToolTip="!(loc.WebSiteConfigDlg_CertFileToolTip)" HideCondition="NOT Secured OR NOT INSTALL_WEB_CERTIFICATE" ShowCondition="Secured AND INSTALL_WEB_CERTIFICATE" DisableCondition="NOT Secured OR NOT INSTALL_WEB_CERTIFICATE" EnableCondition="Secured AND INSTALL_WEB_CERTIFICATE" />
+				<Control Id="AvailableCertList" Type="ListBox" X="19" Y="116" Width="336" Height="62" Property="CERTIFICATE_HASH" HideCondition="NOT Secured OR NOT ATTACH_WEB_CERTIFICATE" ShowCondition="Secured AND ATTACH_WEB_CERTIFICATE" DisableCondition="NOT Secured OR NOT ATTACH_WEB_CERTIFICATE" EnableCondition="Secured AND ATTACH_WEB_CERTIFICATE" />
+
+
+
+				<Control Id="R10Server" Type="Text" X="19" Y="212" Width="167" Height="16" Text="!(loc.WebSiteConfigDlg_R10Server)" TabSkip="no" Transparent="yes" Hidden="yes" ShowCondition="NOT (&amp;Application = 3 OR &amp;Database = 3)" HideCondition="(&amp;DMSClient = 3 OR &amp;Application = 3)" />
+				<Control Id="R10Edit" Type="Edit" X="202" Y="210" Width="155" Height="16" Property="R10SERVER" TabSkip="no" Sunken="yes" ToolTip="!(loc.WebSiteConfigDlg_R10ServerToolTip)" Hidden="yes" ShowCondition="NOT (&amp;Application = 3 OR &amp;Database = 3)" HideCondition="(&amp;DMSClient = 3 OR &amp;Application = 3)" />
+
+				<Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" ElevationShield="yes" Default="yes" Text="!(loc.WixUINext)">
+
+					<Publish Property="WEBSITE_PORT" Value="443" Order="1" Condition="NOT WEBSITE_PORT" />
+					<Publish Property="WEBSITE_NAME" Value="Default Web Site" Order="2" Condition="NOT WEBSITE_NAME" />
+					<Publish Property="THUMBPRINT" Value="[CERTIFICATE_HASH]" Order="3" Condition="ATTACH_WEB_CERTIFICATE" />
+					<Publish Property="RABBIT_LOCAL_SERVER" Value="[R10SERVER]" Order="4" Condition="R10SERVER AND NOT RABBIT_LOCAL_SERVER" />
+					<Publish Property="CERT_FILE_PATH" Value="[RETALIX_CERT_FILE_PATH]" Order="5" />
+					<Publish Property="CERT_FILE_PASSWORD" Value="[RETALIX_CERT_FILE_PASSWORD]" Order="6" />
+					<Publish Property="HQ_SERVER_URL" Value="[WEB_HEADER]://[R10SERVER]:[WEBSITE_PORT]/[WEB_FOLDER_NAME]" Order="7" Condition="SERVER_TYPE=&quot;HqServer&quot; AND &amp;DMSClient &lt;&gt; 3" />
+					<Publish Property="USE_HTTP_REWRITE" Value="{}" Condition="NOT Secured" />
+					
+					<Publish Property="ValidatedCertThumbprint" Value="{}" Order="13" />
+					<Publish Property="USE_RABBIT" Value="1" Order="14" />
+					<Publish Property="FILE_BROWSE_PATH" Value="{}" Order="15" />
+					<Publish Property="RETALIX_ERROR" Value="!(loc.WebSiteConfigDlgEmptyFields)" Order="16" Condition="NOT WEBSITENAME AND NOT WEBSITE_PORT" />
+					<Publish Property="RETALIX_ERROR" Value="!(loc.WebSiteConfigDlgFilePathError)" Order="17" Condition="NOT RETALIX_CERT_FILE_PATH AND (INSTALL_WEB_CERTIFICATE AND Secured)" />
+					<Publish Property="RETALIX_ERROR" Value="!(loc.WebSiteConfigDlgChooseCertMethodError)" Order="18" Condition="Secured AND NOT (ATTACH_WEB_CERTIFICATE OR INSTALL_WEB_CERTIFICATE)" />
+					<Publish Property="RETALIX_ERROR" Value="!(loc.WebSiteConfigDlgChooseCertError)" Order="19" Condition="Secured AND ATTACH_WEB_CERTIFICATE AND NOT CERTIFICATE_HASH" />
+					<Publish Property="PreviousDialog" Value="WebSiteConfig" Condition="NOT RETALIX_ERROR" />
+					<!--<Publish Event="DoAction" Value="GetCertificateDataByHash" Order="55" Condition="CERTIFICATE_HASH" />
+					<Publish Property="DialogsFlow" Value="[DialogsFlow];[PreviousDialog]" Condition="NOT RETALIX_ERROR" />
+					<Publish Event="SpawnDialog" Value="ErrorMessage" Order="21" Condition="RETALIX_ERROR" />-->
+					<Publish Property="SEARCH_CERT_KEYDATA" Value="[SEARCH_CERT_KEYDATA_OLD]" />
+
+					<!--Publish Event="DoAction" Value="ValidateWebSiteDialog" Order="3">1</Publish-->
+					<!--Publish Property="RETALIX_ERROR" Value="Certificate file field cannot be empty if you choosed to install Certificate." Order="4">NOT CERT_FILE_PATH AND INSTALL_WEB_CERTIFICATE</Publish-->
+					<!--Publish Event="DoAction" Value="ValidateCertificate" Order="5" >INSTALL_WEB_CERTIFICATE</Publish-->
+					<!--Publish Event="SpawnDialog" Value="ErrorMessage" Order="6">NOT WEBSITENAME_VALIDATED OR RETALIX_ERROR</Publish>
+				<Publish Event="NewDialog" Value="VerifyReadyDlg" Order="7">WEBSITENAME_VALIDATED AND NOT RETALIX_ERROR</Publish-->
+				</Control>
+				<Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="!(loc.WixUIBack)">
+					<!--<Publish Event="DoAction" Value="DefineNextDialogBackFlow" />-->
+					<Publish Property="DATABASEDBMODE" Value="[[LISTBOXDATABASES][_DBMODE]]" />
+				</Control>
+				<Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
+					<Publish Event="SpawnDialog" Value="CancelDlg" />
+				</Control>
+				<Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="WixUI_Bmp_Banner" />
+				<!--<Control Id="Title"               Type="Text"         X="15"  Y="6"   Width="210" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.CommonDialogTitle)" />
+				<Control Id="Description"         Type="Text"         X="25"  Y="23"  Width="280" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.CommonDialogDescription)" />-->
+				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
+				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+
+				<Control Id="DlgDesc" Type="Text" X="21" Y="23" Width="292" Height="25" Text="{&amp;DlgDesc}!(loc.WebSiteConfigDlg_Desc)" TabSkip="yes" Transparent="yes" />
+				<Control Id="DlgTitle" Type="Text" X="13" Y="6" Width="292" Height="25" Text="{&amp;DlgTitle}!(loc.WebSiteConfigDlg_Title)" TabSkip="yes" Transparent="yes" />
+
+			</Dialog>
+		</UI>
+	</Fragment>
+</Wix>

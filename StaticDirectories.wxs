@@ -1,0 +1,28 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<?include CommonDefs.wxi?>
+	<Fragment Id="Directories"><?include DynamicFolders.wxi?>
+		
+			<StandardDirectory Id="DesktopFolder" />
+			<StandardDirectory Id="FavoritesFolder" />
+			<StandardDirectory Id="FontsFolder" />
+			<Directory Id="GlobalAssemblyCache" />
+			<StandardDirectory Id="System64Folder" />
+			<StandardDirectory Id="SystemFolder" />
+			<StandardDirectory Id="WindowsFolder">
+				<Directory Id="WIN_TEMP" Name="Temp" />
+			</StandardDirectory>
+			<Directory Id="$(var.ProgramsFolder)">
+				<Directory Id="NCR" Name="NCR">
+					<Directory Id="INSTALLDIR">
+					</Directory>
+				</Directory>
+			</Directory>
+			<Directory Id="WINVOLUME" SourceName="WinRoot">
+				<Directory Id="INETPUB" Name="inetpub">
+					<Directory Id="WWWROOT" Name="wwwroot" />
+				</Directory>			
+			</Directory>
+		</Fragment>
+
+
+</Wix>

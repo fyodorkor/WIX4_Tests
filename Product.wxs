@@ -1,0 +1,47 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<?include "CommonDefs.wxi"?>
+	
+	<Package Name="TestInstall" Language="1033" Version="$(var.ProductVersion)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)" InstallerVersion="310" ProductCode="$(var.ProductCode)">
+	
+	<SummaryInformation Keywords="Installer, MSI, Database" />
+	<Upgrade Id="$(var.UpgradeCode)"> 
+		<UpgradeVersion Maximum="$(var.ProductVersion)" IncludeMinimum="yes" Language="1033" MigrateFeatures="yes" Property="MAJOR_UPGRADE" />
+		<UpgradeVersion Minimum="$(var.ProductVersion)" IncludeMinimum="no" Language="1033" OnlyDetect="yes" Property="FOUNDNEWERVERSION" />    
+	</Upgrade>   
+	
+	<!--<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />-->
+	<Media Id="1" EmbedCab="yes" Cabinet="cab1" CompressionLevel="high" />
+	<UIRef Id="UICommon" />
+	
+	<!-- Atleast one feature should be mentioned here as ref to fill all files and features -->
+	<FeatureRef Id="ProductFeature" />
+
+	<!-- Only an administrator can install this msi -->
+	<Launch Condition="Privileged" Message="You must be an administrator on this machine to install [ProductName]." />
+	<?if $(var.Platform) = "x86"?>
+	<Launch Condition="NOT VersionNT64" Message="The installation package is not supported by this processor type. Contact your product vendor." />
+	<?endif?>		
+		
+	<Binary Id="WixUI_Bmp_Banner" SourceFile="$(var.PathToBitmaps)\Banner_NCR.jpg" />
+	<Binary Id="WixUI_Bmp_Dialog" SourceFile="$(var.PathToBitmaps)\Frame_NCR.jpg" />
+	<Binary Id="WixUI_Ico_Exclam" SourceFile="$(var.PathToBitmaps)\exclamic.ico" />
+	<Binary Id="WixUI_Ico_Info" SourceFile="$(var.PathToBitmaps)\info.ico" />
+	<Binary Id="WixUI_Bmp_New" SourceFile="$(var.PathToBitmaps)\New.ico" />
+	<Binary Id="WixUI_Bmp_Up" SourceFile="$(var.PathToBitmaps)\Up.ico" />
+	<Binary Id="DestFolder" SourceFile="$(var.PathToBitmaps)\DestIcon.ibd" />
+
+	<Icon Id="ArpProducticon" SourceFile="$(var.PathToBitmaps)\Uninstall.ico" />
+	
+
+	<!-- Example of the path to custom actions files. It must be different for 64 and 32 bits and is defined in CommonDefs.wxi depending on platform
+	<Binary Id="CommonCA" SourceFile="..\SupportFiles\$(var.Support)\CommonCA.CA.dll" />	
+	-->
+
+	
+	<?include CustomActions.wxi?>
+	<?include "Properties.wxi"?>
+	<?include "InstallSequences.wxi"?>
+	<?include "CustomTables.wxi"?>	
+	</Package>
+
+</Wix>

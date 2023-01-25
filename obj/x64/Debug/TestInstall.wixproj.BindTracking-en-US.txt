@@ -1,0 +1,11 @@
+BuiltPdbOutput	C:\Users\fk250046\source\repos\TestInstall\obj\x64\Debug\en-US\ProductTemplate.wixpdb
+BuiltTargetOutput	C:\Users\fk250046\source\repos\TestInstall\obj\x64\Debug\en-US\ProductTemplate.msi
+Input	DefaultIcons\Banner_NCR.jpg
+Input	DefaultIcons\DestIcon.ibd
+Input	DefaultIcons\exclamic.ico
+Input	DefaultIcons\Frame_NCR.jpg
+Input	DefaultIcons\info.ico
+Input	DefaultIcons\New.ico
+Input	DefaultIcons\Uninstall.ico
+Input	DefaultIcons\Up.ico
+Intermediate	C:\Users\fk250046\source\repos\TestInstall\obj\x64\Debug\en-US\#cab1
